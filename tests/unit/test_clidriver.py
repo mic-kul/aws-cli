@@ -804,6 +804,14 @@ class TestHowClientIsCreated(BaseAWSCommandParamsTest):
         call_args = self.create_endpoint.call_args
         self.assertEqual(call_args[1]['timeout'], (90, 70))
 
+    def test_aws_with_max_retry_attempts(self):
+        self.assert_params_for_cmd(
+            'lambda invoke --function-name foo out.log '
+            '--max-retry-attempts 10',
+            expected_rc=0)
+        call_args = self.create_endpoint.call_args
+        self.assertEqual(call_args[1]['retries']['max_attempts'], 10)
+
 
 class TestHTTPParamFileDoesNotExist(BaseAWSCommandParamsTest):
 

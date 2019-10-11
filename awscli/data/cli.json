@@ -65,7 +65,7 @@
             "type": "int",
             "help": "<p>The maximum socket connect time in seconds. If the value is set to 0, the socket connect will be blocking and not timeout.</p>"
         },
-        "max-attempts": {
+        "max-retry-attempts": {
             "dest": "max_attempts",
             "type": "int",
             "help": "<p>The maximum amount of retry attempts a client call can make.</p>"
