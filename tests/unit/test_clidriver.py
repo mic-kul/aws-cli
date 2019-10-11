@@ -810,7 +810,7 @@ class TestHowClientIsCreated(BaseAWSCommandParamsTest):
             '--max-retry-attempts 10',
             expected_rc=0)
         call_args = self.create_endpoint.call_args
-        self.assertEqual(call_args[1]['retries']['max_attempts'], 10)
+        self.assertEqual(call_args[1]['max_attempts'], 10)
 
 
 class TestHTTPParamFileDoesNotExist(BaseAWSCommandParamsTest):
