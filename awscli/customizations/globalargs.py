@@ -32,6 +32,8 @@ def register_parse_global_args(cli):
                  unique_id='resolve-cli-read-timeout')
     cli.register('top-level-args-parsed', resolve_cli_connect_timeout,
                  unique_id='resolve-cli-connect-timeout')
+    cli.register('top-level-args-parsed', resolve_max_attempts,
+                 unique_id='resolve-max-attempts')
 
 
 def resolve_types(parsed_args, **kwargs):
@@ -118,3 +120,15 @@ def _update_default_client_config(session, arg_name, arg_value):
     if current_default_config is not None:
         new_default_config = current_default_config.merge(new_default_config)
     session.set_default_client_config(new_default_config)
+
+def resolve_max_attempts(parsed_args, session, **kwargs):
+    arg_name = 'max_attempts'
+    arg_value = getattr(parsed_args, arg_name, None)
+    if arg_value is not None:
+        arg_value = int(arg_value)
+        setattr(parsed_args, arg_name, arg_value)
+        current_default_config = session.get_default_client_config()
+        new_default_config = Config(retries={arg_name: arg_value})
+        if current_default_config is not None:
+            new_default_config = current_default_config.merge(new_default_config)
+        session.set_default_client_config(new_default_config)

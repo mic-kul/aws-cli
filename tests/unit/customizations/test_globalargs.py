@@ -227,3 +227,11 @@ class TestGlobalArgsCustomization(unittest.TestCase):
         self.assertEqual(parsed_args.connect_timeout, None)
         self.assertEqual(
             session.get_default_client_config().connect_timeout, None)
+
+    def test_max_attempts(self):
+        parsed_args = FakeParsedArgs(max_attempts='10')
+        session = get_session()
+        globalargs.resolve_max_attempts(parsed_args, session)
+        self.assertEqual(parsed_args.max_attempts, 10)
+        self.assertEqual(
+            session.get_default_client_config().retries["max_attempts"], 10)
